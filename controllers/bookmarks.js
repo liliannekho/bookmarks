@@ -33,8 +33,13 @@ const createBookmark = async (req, res, next) => {
     }
 } 
 
+const respondWithBookmark = (req, res) => {
+    res.json(res.locals.data.bookmark)
+}
+
 module.exports = {
     destroyBookmark,
     updateBookmark,
-    createBookmark
+    createBookmark, 
+    respondWithBookmark
 }
