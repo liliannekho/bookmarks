@@ -42,6 +42,18 @@ const getBookmarksByUser = async (req, res, next) => {
     }
 }
 
+const respondWithToken = (req, res) => {
+    res.json(res.logals.data.token)
+}
+
+const respondWithUser = (req, res) => {
+    res.json(res.locals.data.user)
+}
+
+const respondWithBookmarks = (req, res) => {
+    res.json(res.locals.data.bookmarks)
+}
+
 function createJWT(user){
     return jwt.sign({ user}, process.env.SECRET, { expiresIn: '48h' })
 }
@@ -49,5 +61,8 @@ function createJWT(user){
 module.exports = {
     signUp,
     login,
-    getBookmarksByUser
+    getBookmarksByUser,
+    respondWithToken,
+    respondWithUser,
+    respondWithBookmarks
 }
