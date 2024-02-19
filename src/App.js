@@ -48,6 +48,9 @@ export default function App(){
             }, 
             body: JSON.stringify({...credentials})
         })
+
+        console.log(response)
+        
         const tokenResponse = await response.json()
         setToken(tokenResponse)
         localStorage.setItem('token', JSON.stringify(tokenResponse))
