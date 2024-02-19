@@ -1,8 +1,8 @@
-requrire('dotenv').config()
+require('dotenv').config()
 const { Schema, model } = require('mongoose')
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
-const SALT ROUNDS = 6 
+const SALT_ROUNDS = 6 
 
 const userSchema = new Schema ({
     name: { type: String, required: true},
@@ -21,8 +21,8 @@ const userSchema = new Schema ({
 })
 
 userSchema.pre('save', async function (next) {
-    if(this.isModified('password')) return next()
-    const password = crypto.createHmac('sha256', process.env.SECRET).update(this.passoword)
+    if(!this.isModified('password')) return next()
+    const password = crypto.createHmac('sha256', process.env.SECRET).update(this.passoword).digest().split('').reverse().join('')
     this.password = await bcrypt.hash(this.password, SALT_ROUNDS)
 })
 
