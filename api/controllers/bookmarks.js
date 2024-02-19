@@ -1,10 +1,11 @@
 require('dotenv').config()
-const Bookmark = require('../models/bookmark')
-const User = require('../models/user')
+const Bookmark = require('../../models/bookmark')
+const User = require('../../models/user')
 
-//delete bookmark
-//create bookmark
-//update bookmark
+
+// delete bookmark
+// create bookmark
+// update bookmark
 
 const destroyBookmark = async (req, res, next) => {
     try {
@@ -12,31 +13,32 @@ const destroyBookmark = async (req, res, next) => {
         res.locals.data.bookmark = deletedBookmark
         next()
     } catch (error) {
-        res.status(400).json({ msg: error.message})
+        res.status(400).json({ msg: error.message })
     }
 }
 
 const updateBookmark = async (req, res, next) => {
     try {
-        const updatedBookmark = await Bookmark.findByIdAndUpdate(req.params.id)
+        const updatedBookmark = await Bookmark.findByIdAndUpdate(req.params.id, req.body, { new: true })
         res.locals.data.bookmark = updatedBookmark
         next()
     } catch (error) {
-        res.status(400).json({ msg: error.message})
+        res.status(400).json({ msg: error.message })
     }
 }
 
 const createBookmark = async (req, res, next) => {
     try {
         const createdBookmark = await Bookmark.create(req.body)
-        const user = await User.findOne({ email: res.logals.data.email })
+        const user = await User.findOne({ email: res.locals.data.email })
         user.bookmarks.addToSet(createdBookmark)
         await user.save()
         res.locals.data.bookmark = createdBookmark
+        next()
     } catch (error) {
-        res.status(400).json({ msg: error.message})
+        res.status(400).json({ msg: error.message })
     }
-} 
+}
 
 const respondWithBookmark = (req, res) => {
     res.json(res.locals.data.bookmark)
@@ -45,6 +47,6 @@ const respondWithBookmark = (req, res) => {
 module.exports = {
     destroyBookmark,
     updateBookmark,
-    createBookmark, 
+    createBookmark,
     respondWithBookmark
 }
