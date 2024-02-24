@@ -1,6 +1,6 @@
 require('dotenv').config()
-const Bookmark = require('../models/bookmark')
-const User = require('../models/user')
+const Bookmark = require('../../models/bookmark')
+const User = require('../../models/user')
 
 
 // delete bookmark
